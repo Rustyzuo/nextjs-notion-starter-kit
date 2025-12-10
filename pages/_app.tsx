@@ -1,13 +1,13 @@
 // used for rendering equations (optional)
 import 'katex/dist/katex.min.css'
 // used for code syntax highlighting (optional)
-import 'prismjs/themes/prism-coy.css'
+// import 'prismjs/themes/prism-coy.css' // [已修改] 暗黑模式下建议注释掉这个亮色主题
 // core styles shared by all of react-notion-x (required)
 import 'react-notion-x/src/styles.css'
 // global styles shared across the entire site
 import 'styles/global.css'
 // this might be better for dark mode
-// import 'prismjs/themes/prism-okaidia.css'
+import 'prismjs/themes/prism-okaidia.css' // [已修改] 开启这个暗色代码高亮主题
 // global style overrides for notion
 import 'styles/notion.css'
 // global style overrides for prism theme (optional)
@@ -18,6 +18,7 @@ import * as Fathom from 'fathom-client'
 import { useRouter } from 'next/router'
 import { posthog } from 'posthog-js'
 import * as React from 'react'
+import { ThemeProvider } from 'next-themes' // [已修改] 新增引入
 
 import { bootstrap } from '@/lib/bootstrap-client'
 import {
@@ -61,5 +62,10 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, [router.events])
 
-  return <Component {...pageProps} />
+  return (
+    // [已修改] 添加 ThemeProvider 包裹，强制默认暗黑模式
+    <ThemeProvider attribute='class' defaultTheme='dark' enableSystem={false}>
+      <Component {...pageProps} />
+    </ThemeProvider>
+  )
 }
