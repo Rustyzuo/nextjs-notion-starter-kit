@@ -1,14 +1,25 @@
-// pages/_app.tsx
+// used for rendering equations (optional)
+import 'katex/dist/katex.min.css'
+// used for code syntax highlighting (optional)
+// import 'prismjs/themes/prism-coy.css' // [修改] 注释掉这个亮色主题
+// core styles shared by all of react-notion-x (required)
+import 'react-notion-x/src/styles.css'
+// global styles shared across the entire site
+import 'styles/global.css'
+// this might be better for dark mode
+import 'prismjs/themes/prism-okaidia.css' // [修改] 开启这个暗色主题，配合 Dark Mode
+// global style overrides for notion
+import 'styles/notion.css'
+// global style overrides for prism theme (optional)
+import 'styles/prism-theme.css'
 
-// 1. 先引入第三方包 (按字母顺序)
-import * as Fathom from 'fathom-client'
 import type { AppProps } from 'next/app'
+import * as Fathom from 'fathom-client'
 import { useRouter } from 'next/router'
-import { ThemeProvider } from 'next-themes'
 import { posthog } from 'posthog-js'
 import * as React from 'react'
+import { ThemeProvider } from 'next-themes' // [修改] 新增引入
 
-// 2. 再引入本地模块
 import { bootstrap } from '@/lib/bootstrap-client'
 import {
   fathomConfig,
@@ -17,15 +28,6 @@ import {
   posthogConfig,
   posthogId
 } from '@/lib/config'
-
-// 3. 最后引入样式文件 (按字母顺序)
-import 'katex/dist/katex.min.css'
-// 注意：在这里我也开启了暗黑代码主题
-import 'prismjs/themes/prism-okaidia.css'
-import 'react-notion-x/src/styles.css'
-import 'styles/global.css'
-import 'styles/notion.css'
-import 'styles/prism-theme.css'
 
 if (!isServer) {
   bootstrap()
@@ -61,7 +63,8 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router.events])
 
   return (
-    <ThemeProvider attribute='class' defaultTheme='dark' enableSystem={false} value={{ dark: 'dark-mode', light: 'light-mode' }}>
+    // [修改] 添加 ThemeProvider 包裹，强制默认暗黑模式
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
       <Component {...pageProps} />
     </ThemeProvider>
   )
