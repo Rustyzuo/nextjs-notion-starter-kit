@@ -1,3 +1,4 @@
+/* eslint-disable simple-import-sort/imports */
 import 'katex/dist/katex.min.css'
 import 'prismjs/themes/prism-okaidia.css'
 import 'react-notion-x/src/styles.css'
